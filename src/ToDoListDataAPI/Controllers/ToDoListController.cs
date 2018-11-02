@@ -25,8 +25,8 @@ namespace ToDoListDataAPI.Controllers
 
         static ToDoListController()
         {
-            mockData.Add(0, new ToDoItem { ID = 0, Owner = "*", Description = "feed the dog" });
-            mockData.Add(1, new ToDoItem { ID = 1, Owner = "*", Description = "take the dog on a walk" });
+            mockData.Add(0, new ToDoItem { ID = 0, Owner = "*", Description = "feed the dog", Sentiment = 0.5 });
+            mockData.Add(1, new ToDoItem { ID = 1, Owner = "*", Description = "take the dog on a walk", Sentiment = 0.5 });
         }
 
         private static void CheckCallerId()
@@ -57,12 +57,12 @@ namespace ToDoListDataAPI.Controllers
         }
 
         // POST: api/ToDoItemList
-        public void Post(ToDoItem todo)
+        public async Task Post(ToDoItem todo)
         {
             CheckCallerId();
 
             //Check Sentiment
-            CognitiveServicesText.SentimentAnalysis(todo);
+            await CognitiveServicesText.SentimentAnalysis(todo);
 
             todo.ID = mockData.Count > 0 ? mockData.Keys.Max() + 1 : 1;
             mockData.Add(todo.ID, todo);

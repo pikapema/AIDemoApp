@@ -10,7 +10,8 @@ angular.module('todoApp')
 
     $scope.editInProgressTodo = {
         Description: "",
-        ID: 0
+        ID: 0,
+        Sentiment: 0
     };
 
     
@@ -20,6 +21,7 @@ angular.module('todoApp')
         if (todo.edit) {
             $scope.editInProgressTodo.Description = todo.Description;
             $scope.editInProgressTodo.ID = todo.ID;
+            $scope.editInProgressTodo.Sentiment = todo.Sentiment;
             $scope.editingInProgress = true;
         } else {
             $scope.editingInProgress = false;
@@ -57,7 +59,8 @@ angular.module('todoApp')
     $scope.add = function () {
         todoListSvc.postItem({
             'Description': $scope.newTodoCaption,
-            'Owner': ""
+            'Owner': "",
+            'Sentiment': 0
         }).success(function (results) {
             $scope.loadingMsg = "";
             $scope.newTodoCaption = "";

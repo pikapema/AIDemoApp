@@ -58,7 +58,8 @@ namespace ToDoListAPI.Controllers
                 {
                     Description = m.Description,
                     ID = (int)m.ID,
-                    Owner = m.Owner
+                    Owner = m.Owner,
+                    Sentiment = m.Sentiment
                 });
             }
         }
@@ -90,7 +91,8 @@ namespace ToDoListAPI.Controllers
                 {
                     Description = todo.Description,
                     ID = todo.ID,
-                    Owner = todo.Owner
+                    Owner = todo.Owner,
+                    Sentiment = todo.Sentiment
                 });
             }
         }
@@ -105,7 +107,8 @@ namespace ToDoListAPI.Controllers
                 {
                     Description = todo.Description,
                     ID = todo.ID,
-                    Owner = todo.Owner
+                    Owner = todo.Owner,
+                    Sentiment = todo.Sentiment
                 });
             }
         }

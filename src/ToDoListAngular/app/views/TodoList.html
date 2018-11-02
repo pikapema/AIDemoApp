@@ -8,23 +8,96 @@
                 <button ng-click="add();" class="btn btn-default">Add</button>
             </span>
         </div>
-        <table class="table table-striped">
-            <tbody>
-                <tr data-ng-repeat="item in todoList">
-                    <td>
-                        <p data-ng-hide="item.edit">{{item.Description}}</p>
-                        <input data-ng-show="item.edit" type="text" data-ng-model="editInProgressTodo.Description" class="form-control" />                        
-                    </td>
-                    <td>
-                        <p data-ng-hide="item.edit || editingInProgress">
-                            <a data-ng-click="editSwitch(item)" href="javascript:;">Edit</a> | 
-                            <a data-ng-click="delete(item.ID)" href="javascript:;">Delete</a></p>
-                            <p data-ng-show="item.edit"><a data-ng-click="update(item)" href="javascript:;">Save</a> | 
-                            <a data-ng-click="editSwitch(item)" href="javascript:;">Cancel</a></p>                       
-                    </td>
 
-                </tr>
-            </tbody>
+        <table>
+            <colgroup>
+                <col span="2" style="background-color:red">
+                <col style="background-color:yellow">
+            </colgroup>
+            <tr>
+                <th>Cognitive Service</th>
+                <th>ML.NET</th>
+                <th>Custom model (Azure ML Studio)</th>
+            </tr>
+            <tr>
+                <td>
+                <table class="table table-striped">
+    <tbody>
+        <tr data-ng-repeat="item in todoList">
+            <td ng-class='{red : item.Sentiment <= 0.3, green : item.Sentiment > 0.7}'>
+                <p data-ng-hide="item.edit">{{item.Description}}</p>
+                <input data-ng-show="item.edit" type="text" data-ng-model="editInProgressTodo.Description" class="form-control" />
+            </td>
+            
+        </tr>
+    </tbody>
+</table>
+                </td>
+                <td>
+                    <table class="table table-striped">
+                        <tbody>
+                            <tr data-ng-repeat="item in todoList">
+                                <td ng-class='{red : item.Sentiment <= 0.3, green : item.Sentiment > 0.7}'>
+                                    <p data-ng-hide="item.edit">{{item.Description}}</p>
+                                    <input data-ng-show="item.edit" type="text" data-ng-model="editInProgressTodo.Description" class="form-control" />
+                                </td>
+                                
+                            </tr>
+                        </tbody>
+                    </table>
+                </td>
+                <td>
+                    <table class="table table-striped">
+                        <tbody>
+                            <tr data-ng-repeat="item in todoList">
+                                <td ng-class='{red : item.Sentiment <= 0.3, green : item.Sentiment > 0.7}'>
+                                    <p data-ng-hide="item.edit">{{item.Description}}</p>
+                                    <input data-ng-show="item.edit" type="text" data-ng-model="editInProgressTodo.Description" class="form-control" />
+                                </td>
+                              
+                            </tr>
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
         </table>
+        </div>
     </div>
 </div>
+
+<style>
+   
+        table tr:nth-child(odd) {
+            background-color: #f1f1f1;
+        }
+
+        table tr:nth-child(even) {
+            background-color: #ffffff;
+        }
+
+    .column {
+        float: left;
+        width: 33.33%;
+    }
+
+
+    /* Clear floats after the columns */
+    .row:after {
+        content: "";
+        display: table;
+        clear: both;
+    }
+</style>
+<style type="text/css">
+    .red {
+        color: red;
+    }
+
+    .green {
+        color: green;
+    }
+
+    .black {
+        color: black;
+    }
+</style>

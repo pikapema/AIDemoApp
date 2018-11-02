@@ -30,7 +30,15 @@ namespace ToDoListAPI.Models
             get { return this._id; }
             set { this._id = value; }
         }
-        
+        /// <summary>
+        /// Optional.
+        /// </summary>
+        private double _sentiment;
+        public double Sentiment
+        {
+            get { return this._sentiment; }
+            set { this._sentiment = value; }
+        }
         private string _owner;
         
         /// <summary>
@@ -71,6 +79,11 @@ namespace ToDoListAPI.Models
                 {
                     this.Owner = ((string)ownerValue);
                 }
+                JToken sentimentValue = inputObject["Sentiment"];
+                if (sentimentValue != null && sentimentValue.Type != JTokenType.Null)
+                {
+                    this.Sentiment = ((double)sentimentValue);
+                }
             }
         }
         
@@ -98,6 +111,8 @@ namespace ToDoListAPI.Models
             {
                 outputObject["Owner"] = this.Owner;
             }
+           
+            outputObject["Sentiment"] = this.Sentiment;
             return outputObject;
         }
     }
