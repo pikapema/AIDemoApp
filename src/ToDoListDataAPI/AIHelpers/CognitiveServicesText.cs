@@ -18,7 +18,7 @@ namespace ToDoListDataAPI.AIHelpers
         {
             ITextAnalyticsClient client = new TextAnalyticsClient(new ApiKeyServiceClientCredentials("Key goes here"))
             {
-                Endpoint = "https://westeurope.api.cognitive.microsoft.com/text/analytics/v2.0"
+                Endpoint = "https://westeurope.api.cognitive.microsoft.com"
             };
 
             //Detect language
@@ -33,7 +33,7 @@ namespace ToDoListDataAPI.AIHelpers
                 LanguageBatchResult result = await client.DetectLanguageAsync(input);
                 var docs = result.Documents;
 
-                string language = result.Documents[0].DetectedLanguages[0].Name;
+                string language = result.Documents[0].DetectedLanguages[0].Iso6391Name;
 
 
                 SentimentBatchResult result3 = client.SentimentAsync(
