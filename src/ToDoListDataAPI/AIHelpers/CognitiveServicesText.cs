@@ -6,6 +6,7 @@ using Microsoft.Rest;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
+using ToDoListDataAPI.Models;
 
 namespace ToDoListDataAPI.AIHelpers
 {
@@ -13,44 +14,38 @@ namespace ToDoListDataAPI.AIHelpers
     public static class CognitiveServicesText
     {       
 
-        /// </summary>
-        class ApiKeyServiceClientCredentials : ServiceClientCredentials
+        public static async Task SentimentAnalysis(ToDoItem item)
         {
-            string subscriptionKey = ""; //Insert your Text Anaytics subscription key
-            public override Task ProcessHttpRequestAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+            ITextAnalyticsClient client = new TextAnalyticsClient(new ApiKeyServiceClientCredentials("Key goes here"))
             {
-                request.Headers.Add("Ocp-Apim-Subscription-Key", subscriptionKey);
-                return base.ProcessHttpRequestAsync(request, cancellationToken);
-            }
-        }
+                Endpoint = "https://westeurope.api.cognitive.microsoft.com/text/analytics/v2.0"
+            };
 
-        // Create a client.
-        static ITextAnalyticsClient client = new TextAnalyticsClient(new ApiKeyServiceClientCredentials())
-        {
-            Endpoint = "https://westus.api.cognitive.microsoft.com"
-        }; //Replace 'westus' with the correct region for your Text Analytics subscription
-
-       
-        public static double SentimentAnalysis(string text)
-        {
             //Detect language
-            var result = client.DetectLanguageAsync(new BatchInput(
-                    new List<Input>()
+            List<Input> list = new List<Input>()
                         {
-                          new Input("1", text)
-                    })).Result;
+                          new Input("1", item.Description)
+                    };
+            BatchInput input = new BatchInput();
+            input.Documents = list;
+            try
+            {
+                LanguageBatchResult result = await client.DetectLanguageAsync(input);
+                var docs = result.Documents;
 
-            string language = result.Documents[1].DetectedLanguages[1].Name;
+                string language = result.Documents[0].DetectedLanguages[0].Name;
 
 
-            SentimentBatchResult result2 = client.SentimentAsync(
-                    new MultiLanguageBatchInput(
-                        new List<MultiLanguageInput>()
-                        {
-                          new MultiLanguageInput(language, "1", text)
-                        })).Result;
+                SentimentBatchResult result3 = client.SentimentAsync(
+                        new MultiLanguageBatchInput(
+                            new List<MultiLanguageInput>()
+                            {
+                          new MultiLanguageInput(language, "1", item.Description)
+                            })).Result;
 
-            return (double)result2.Documents[1].Score;
+                item.Sentiment = (double)result3.Documents[0].Score;
+            }
+            catch (Exception e) { }
 
         }
     }

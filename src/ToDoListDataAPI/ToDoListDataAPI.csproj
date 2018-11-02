@@ -144,6 +144,7 @@
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AIHelpers\ApiKeyServiceClientCredentials.cs" />
     <Compile Include="AIHelpers\CognitiveServicesText.cs" />
     <Compile Include="App_Start\SwaggerConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />

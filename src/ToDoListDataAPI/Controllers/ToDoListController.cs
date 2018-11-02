@@ -10,6 +10,8 @@ using System.IdentityModel.Tokens;
 using System.Diagnostics;
 using ToDoListDataAPI.Models;
 using System.Configuration;
+using ToDoListDataAPI.AIHelpers;
+using System.Threading.Tasks;
 
 namespace ToDoListDataAPI.Controllers
 {
@@ -58,6 +60,9 @@ namespace ToDoListDataAPI.Controllers
         public void Post(ToDoItem todo)
         {
             CheckCallerId();
+
+            //Check Sentiment
+            CognitiveServicesText.SentimentAnalysis(todo);
 
             todo.ID = mockData.Count > 0 ? mockData.Keys.Max() + 1 : 1;
             mockData.Add(todo.ID, todo);
