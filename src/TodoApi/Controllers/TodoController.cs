@@ -30,13 +30,10 @@ namespace TodoApi.Controllers
 
         // GET: api/ToDoItemList
         [HttpPost]
-        public void Post(TodoItem todo)
+        public bool Post(string text)
         {
-            bool mlSentimentValue = MLNetTextSentiment.PredictSentiment(todo.Description);
-            todo.MlNetSentimentScore = mlSentimentValue;
-
-            todo.Id = mockData.Count > 0 ? mockData.Keys.Max() + 1 : 1;
-            mockData.Add(todo.Id, todo);
+            bool mlSentimentValue = MLNetTextSentiment.PredictSentiment(text);
+            return mlSentimentValue;
         }
 
     }

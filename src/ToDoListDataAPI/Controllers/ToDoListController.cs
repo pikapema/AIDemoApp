@@ -7,6 +7,7 @@ using ToDoListDataAPI.Models;
 using System.Threading.Tasks;
 using ToDoListDataAPI.AIHelpers.CognitiveServices;
 using ToDoListDataAPI.AIHelpers.MLNET;
+using System.Net.Http;
 
 namespace ToDoListDataAPI.Controllers
 {
@@ -17,6 +18,7 @@ namespace ToDoListDataAPI.Controllers
         //private static string trustedCallerServicePrincipalId = ConfigurationManager.AppSettings["todo:TrustedCallerServicePrincipalId"];
 
         private static Dictionary<int, ToDoItem> mockData = new Dictionary<int, ToDoItem>();
+        private static readonly HttpClient client = new HttpClient();
 
         static ToDoListController()
         {
@@ -58,8 +60,23 @@ namespace ToDoListDataAPI.Controllers
 
             //Check Sentiment
             await CognitiveServicesText.SentimentAnalysis(todo);
-            double mlSentimentValue = MLNetTextSentiment.PredictSentiment(todo.Description);
-            todo.MlNetSentimentScore = mlSentimentValue;
+
+            //Call .NET Core project for ML.NET prediction
+            var values = new Dictionary<string, string>
+            {
+               { "Text", todo.Description }
+            };
+
+            var content = new FormUrlEncodedContent(values);
+
+            var response = await client.PostAsync("http://localhost:60146/api/todo", content);
+            string responseString = await response.Content.ReadAsStringAsync();
+
+            //double mlSentimentValue = MLNetTextSentiment.PredictSentiment(todo.Description);
+            if (responseString == "false")
+                todo.MlNetSentimentScore = 0;
+            else
+                todo.MlNetSentimentScore = 1;
 
             todo.ID = mockData.Count > 0 ? mockData.Keys.Max() + 1 : 1;
             mockData.Add(todo.ID, todo);
