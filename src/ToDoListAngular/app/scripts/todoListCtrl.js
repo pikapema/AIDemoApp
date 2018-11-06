@@ -60,7 +60,8 @@ angular.module('todoApp')
         todoListSvc.postItem({
             'Description': $scope.newTodoCaption,
             'Owner': "",
-            'Sentiment': 0
+            'CognitiveSentiment': 0,
+            'MlNetSentiment': 0
         }).success(function (results) {
             $scope.loadingMsg = "";
             $scope.newTodoCaption = "";

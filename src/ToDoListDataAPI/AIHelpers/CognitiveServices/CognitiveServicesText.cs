@@ -8,7 +8,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using ToDoListDataAPI.Models;
 
-namespace ToDoListDataAPI.AIHelpers
+namespace ToDoListDataAPI.AIHelpers.CognitiveServices
 {
 
     public static class CognitiveServicesText
@@ -16,7 +16,7 @@ namespace ToDoListDataAPI.AIHelpers
 
         public static async Task SentimentAnalysis(ToDoItem item)
         {
-            ITextAnalyticsClient client = new TextAnalyticsClient(new ApiKeyServiceClientCredentials("Key goes here"))
+            ITextAnalyticsClient client = new TextAnalyticsClient(new ApiKeyServiceClientCredentials("Key"))
             {
                 Endpoint = "https://westeurope.api.cognitive.microsoft.com"
             };
@@ -43,9 +43,9 @@ namespace ToDoListDataAPI.AIHelpers
                           new MultiLanguageInput(language, "1", item.Description)
                             })).Result;
 
-                item.Sentiment = (double)result3.Documents[0].Score;
+                item.CognitiveSentimentScore = (double)result3.Documents[0].Score;
             }
-            catch (Exception e) { }
+            catch (Exception e) { Console.WriteLine(e.StackTrace); }
 
         }
     }

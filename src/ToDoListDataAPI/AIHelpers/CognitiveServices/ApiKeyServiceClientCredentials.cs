@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace ToDoListDataAPI.AIHelpers
+namespace ToDoListDataAPI.AIHelpers.CognitiveServices
 {
     using System;
     using System.Net.Http;

@@ -2,16 +2,11 @@
 using System.Collections.Generic;
 using System.Collections.Concurrent;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Web.Http;
-using System.Security.Claims;
-using System.IdentityModel.Tokens;
-using System.Diagnostics;
 using ToDoListDataAPI.Models;
-using System.Configuration;
-using ToDoListDataAPI.AIHelpers;
 using System.Threading.Tasks;
+using ToDoListDataAPI.AIHelpers.CognitiveServices;
+using ToDoListDataAPI.AIHelpers.MLNET;
 
 namespace ToDoListDataAPI.Controllers
 {
@@ -25,8 +20,8 @@ namespace ToDoListDataAPI.Controllers
 
         static ToDoListController()
         {
-            mockData.Add(0, new ToDoItem { ID = 0, Owner = "*", Description = "feed the dog", Sentiment = 0.5 });
-            mockData.Add(1, new ToDoItem { ID = 1, Owner = "*", Description = "take the dog on a walk", Sentiment = 0.5 });
+            mockData.Add(0, new ToDoItem { ID = 0, Owner = "*", Description = "feed the dog", CognitiveSentimentScore = 0.5, MlNetSentimentScore = 0.5 });
+            mockData.Add(1, new ToDoItem { ID = 1, Owner = "*", Description = "take the dog on a walk", CognitiveSentimentScore = 0.5, MlNetSentimentScore = 0.5 });
         }
 
         private static void CheckCallerId()
@@ -63,6 +58,8 @@ namespace ToDoListDataAPI.Controllers
 
             //Check Sentiment
             await CognitiveServicesText.SentimentAnalysis(todo);
+            double mlSentimentValue = MLNetTextSentiment.PredictSentiment(todo.Description);
+            todo.MlNetSentimentScore = mlSentimentValue;
 
             todo.ID = mockData.Count > 0 ? mockData.Keys.Max() + 1 : 1;
             mockData.Add(todo.ID, todo);

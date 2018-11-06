@@ -33,12 +33,23 @@ namespace ToDoListAPI.Models
         /// <summary>
         /// Optional.
         /// </summary>
-        private double _sentiment;
-        public double Sentiment
+        private double _cognitivesentiment;
+        public double CognitiveSentiment
         {
-            get { return this._sentiment; }
-            set { this._sentiment = value; }
+            get { return this._cognitivesentiment; }
+            set { this._cognitivesentiment = value; }
         }
+
+        /// <summary>
+        /// Optional.
+        /// </summary>
+        private double _mlnetsentiment;
+        public double MlNetSentiment
+        {
+            get { return this._mlnetsentiment; }
+            set { this._mlnetsentiment = value; }
+        }
+
         private string _owner;
         
         /// <summary>
@@ -79,10 +90,15 @@ namespace ToDoListAPI.Models
                 {
                     this.Owner = ((string)ownerValue);
                 }
-                JToken sentimentValue = inputObject["Sentiment"];
+                JToken sentimentValue = inputObject["CognitiveSentiment"];
                 if (sentimentValue != null && sentimentValue.Type != JTokenType.Null)
                 {
-                    this.Sentiment = ((double)sentimentValue);
+                    this.CognitiveSentiment = ((double)sentimentValue);
+                }
+                JToken mlnetsentimentValue = inputObject["MlNetSentiment"];
+                if (mlnetsentimentValue != null && mlnetsentimentValue.Type != JTokenType.Null)
+                {
+                    this.MlNetSentiment = ((double)mlnetsentimentValue);
                 }
             }
         }
@@ -112,7 +128,8 @@ namespace ToDoListAPI.Models
                 outputObject["Owner"] = this.Owner;
             }
            
-            outputObject["Sentiment"] = this.Sentiment;
+            outputObject["CognitiveSentiment"] = this.CognitiveSentiment;
+            outputObject["MlNetSentiment"] = this.MlNetSentiment;
             return outputObject;
         }
     }
