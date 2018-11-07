@@ -26,8 +26,10 @@ namespace ToDoListDataAPI.AIHelpers.CognitiveServices
                         {
                           new Input("1", item.Description)
                     };
-            BatchInput input = new BatchInput();
-            input.Documents = list;
+            BatchInput input = new BatchInput
+            {
+                Documents = list
+            };
             try
             {
                 LanguageBatchResult result = await client.DetectLanguageAsync(input);

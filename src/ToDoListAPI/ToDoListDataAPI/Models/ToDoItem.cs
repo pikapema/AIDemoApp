@@ -90,12 +90,12 @@ namespace ToDoListAPI.Models
                 {
                     this.Owner = ((string)ownerValue);
                 }
-                JToken sentimentValue = inputObject["CognitiveSentiment"];
+                JToken sentimentValue = inputObject["CognitiveSentimentScore"];
                 if (sentimentValue != null && sentimentValue.Type != JTokenType.Null)
                 {
                     this.CognitiveSentiment = ((double)sentimentValue);
                 }
-                JToken mlnetsentimentValue = inputObject["MlNetSentiment"];
+                JToken mlnetsentimentValue = inputObject["MlNetSentimentScore"];
                 if (mlnetsentimentValue != null && mlnetsentimentValue.Type != JTokenType.Null)
                 {
                     this.MlNetSentiment = ((double)mlnetsentimentValue);

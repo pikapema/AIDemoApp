@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using ToDoListDataAPI.AIHelpers.CognitiveServices;
 using ToDoListDataAPI.AIHelpers.MLNET;
 using System.Net.Http;
+using System.Globalization;
 
 namespace ToDoListDataAPI.Controllers
 {
@@ -52,7 +53,6 @@ namespace ToDoListDataAPI.Controllers
 
             return mockData.Values.Where(m => (m.Owner == owner || owner == "*" ) && m.ID == id).First();
         }
-
         // POST: api/ToDoItemList
         public async Task Post(ToDoItem todo)
         {
@@ -73,10 +73,14 @@ namespace ToDoListDataAPI.Controllers
             string responseString = await response.Content.ReadAsStringAsync();
 
             //double mlSentimentValue = MLNetTextSentiment.PredictSentiment(todo.Description);
-            if (responseString == "false")
-                todo.MlNetSentimentScore = 0;
+            double result;
+            if (Double.TryParse(responseString, NumberStyles.AllowDecimalPoint, CultureInfo.CurrentCulture, out result))
+            {
+                todo.MlNetSentimentScore = result;
+                System.Diagnostics.Debug.WriteLine(responseString + " --> " + result);
+            }
             else
-                todo.MlNetSentimentScore = 1;
+                System.Diagnostics.Debug.WriteLine("Unable to parse " + responseString);
 
             todo.ID = mockData.Count > 0 ? mockData.Keys.Max() + 1 : 1;
             mockData.Add(todo.ID, todo);

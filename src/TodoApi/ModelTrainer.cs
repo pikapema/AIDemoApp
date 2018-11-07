@@ -10,7 +10,8 @@ namespace TodoApi
     public static class ModelTrainer
     {
         private static string AppPath => Path.GetDirectoryName(Environment.GetCommandLineArgs()[0]);
-        private static string TrainDataPath => "C:/Users/kapeltol/Source/Repos/AIDemoApp/src/TodoApi/Data/wikipedia-detox-250-line-data.tsv";
+        private static string TrainDataPath => "C:/Users/kapeltol/Source/Repos/AIDemoApp/src/TodoApi/Data/Sentiment_tweets.tsv";
+        //private static string TrainDataPath => "C:/Users/kapeltol/Source/Repos/AIDemoApp/src/TodoApi/Data/wikipedia-detox-250-line-data.tsv";
         private static string TestDataPath => "C:/Users/kapeltol/Source/Repos/AIDemoApp/src/TodoApi/Data/wikipedia-detox-250-line-test.tsv";
         private static string ModelPath => "C:/Users/kapeltol/Source/Repos/AIDemoApp/src/TodoApi/Data/SentimentModel.zip";
 
@@ -46,50 +47,27 @@ namespace TodoApi
 
 
 
-                //4. Create and train the model            
-                Console.WriteLine("=============== Create and Train the Model ===============");
-
+                //4. Create and train the model    
                 var model = pipeline.Fit(trainingDataView);
-
-                Console.WriteLine("=============== End of training ===============");
-                Console.WriteLine();
 
 
                 //5. Evaluate the model and show accuracy stats
 
                 //Load evaluation/test data
                 IDataView testDataView = reader.Read(new MultiFileSource(TestDataPath));
-
-                Console.WriteLine("=============== Evaluating Model's accuracy with Test data===============");
                 var predictions = model.Transform(testDataView);
 
                 var binClassificationCtx = new BinaryClassificationContext(env);
                 var metrics = binClassificationCtx.Evaluate(predictions, "Label");
 
-                Console.WriteLine();
-                Console.WriteLine("Model quality metrics evaluation");
-                Console.WriteLine("------------------------------------------");
-                Console.WriteLine($"Accuracy: {metrics.Accuracy:P2}");
-                Console.WriteLine($"Auc: {metrics.Auc:P2}");
-                Console.WriteLine($"F1Score: {metrics.F1Score:P2}");
-                Console.WriteLine("=============== End of Model's evaluation ===============");
-                Console.WriteLine();
 
-
-                //6. Test Sentiment Prediction with one sample text 
-                var predictionFunct = model.MakePredictionFunction<SentimentIssue, SentimentPrediction>(env);
-
-                SentimentIssue sampleStatement = new SentimentIssue
-                {
-                    Text = "This is a very rude movie"
-                };
-
-                var resultprediction = predictionFunct.Predict(sampleStatement);
-
-                Console.WriteLine();
-                Console.WriteLine("=============== Test of model with a sample ===============");
-
-                Console.WriteLine($"Text: {sampleStatement.Text} | Prediction: {(Convert.ToBoolean(resultprediction.Prediction) ? "Toxic" : "Nice")} sentiment | Probability: {resultprediction.Probability} ");
+                System.Diagnostics.Debug.WriteLine("Model quality metrics evaluation");
+                System.Diagnostics.Debug.WriteLine("------------------------------------------");
+                System.Diagnostics.Debug.WriteLine($"Accuracy: {metrics.Accuracy:P2}");
+                System.Diagnostics.Debug.WriteLine($"Auc: {metrics.Auc:P2}");
+                System.Diagnostics.Debug.WriteLine($"F1Score: {metrics.F1Score:P2}");
+                System.Diagnostics.Debug.WriteLine("=============== End of Model's evaluation ===============");
+                                
 
                 // Save model to .ZIP file
                 SaveModelAsFile(env, model);
@@ -101,7 +79,7 @@ namespace TodoApi
             using (var fs = new FileStream(ModelPath, FileMode.Create, FileAccess.Write, FileShare.Write))
                 model.SaveTo(env, fs);
 
-            Console.WriteLine("The model is saved to {0}", ModelPath);
+            System.Diagnostics.Debug.WriteLine("The model is saved to {0}", ModelPath);
         }
     }
 }

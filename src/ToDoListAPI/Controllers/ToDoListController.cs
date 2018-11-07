@@ -21,9 +21,8 @@ namespace ToDoListAPI.Filters
     {
         public override void OnException(HttpActionExecutedContext context)
         {
-            if (context.Exception is Microsoft.Rest.HttpOperationException)
+            if (context.Exception is Microsoft.Rest.HttpOperationException ex)
             {
-                var ex = (Microsoft.Rest.HttpOperationException)context.Exception;
                 context.Response = ex.Response;
             }
         }

@@ -35,7 +35,7 @@ angular.module('todoApp')
         }).error(function (err) {
             $scope.error = err;
             $scope.loadingMessage = "";
-        })
+        });
     };
     $scope.delete = function (id) {
         todoListSvc.deleteItem(id).success(function (results) {
@@ -44,7 +44,7 @@ angular.module('todoApp')
         }).error(function (err) {
             $scope.error = err;
             $scope.loadingMessage = "";
-        })
+        });
     };
     $scope.update = function (todo) {
         todoListSvc.putItem($scope.editInProgressTodo).success(function (results) {
@@ -54,7 +54,7 @@ angular.module('todoApp')
         }).error(function (err) {
             $scope.error = err;
             $scope.loadingMessage = "";
-        })
+        });
     };
     $scope.add = function () {
         todoListSvc.postItem({
@@ -69,6 +69,6 @@ angular.module('todoApp')
         }).error(function (err) {
             $scope.error = err;
             $scope.loadingMsg = "";
-        })
+        });
     };
 }]);

@@ -30,9 +30,9 @@ namespace TodoApi.Controllers
 
         // GET: api/ToDoItemList
         [HttpPost]
-        public bool Post(string text)
+        public int Post(string text)
         {
-            bool mlSentimentValue = MLNetTextSentiment.PredictSentiment(text);
+            int mlSentimentValue = MLNetTextSentiment.PredictSentiment(text);
             return mlSentimentValue;
         }
 

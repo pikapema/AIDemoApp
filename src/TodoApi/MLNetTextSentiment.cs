@@ -13,10 +13,10 @@ namespace TodoApi
         //private static string AppPath => Path.GetDirectoryName(Environment.GetCommandLineArgs()[0]);
         private static string ModelPath => "C:/Users/kapeltol/Source/Repos/AIDemoApp/src/TodoApi/Data/SentimentModel.zip";
 
-        public static bool PredictSentiment(string text)
+        public static int PredictSentiment(string text)
         {
             if (text == null || text == "")
-                return false;
+                return 0;
 
             //check to see if model does exist
             if( !File.Exists(ModelPath))
@@ -39,16 +39,15 @@ namespace TodoApi
                 }
 
                 // Create prediction engine and make prediction.
-
                 var engine = loadedModel.MakePredictionFunction<SentimentIssue, SentimentPrediction>(env);
 
                 SentimentPrediction predictionFromLoaded = engine.Predict(sampleStatement);
+                System.Diagnostics.Debug.WriteLine("prediction: " + predictionFromLoaded.Prediction + ", Probability: " + predictionFromLoaded.Probability + ", score: " + predictionFromLoaded.Score);
+                int predicition = 0;
+                if (predictionFromLoaded.Prediction == true)
+                    predicition = 1;
 
-                Console.WriteLine();
-                Console.WriteLine("=============== Test of model with a sample ===============");
-
-                Console.WriteLine($"Text: {sampleStatement.Text} | Prediction: {(Convert.ToBoolean(predictionFromLoaded.Prediction) ? "Toxic" : "Nice")} sentiment | Probability: {predictionFromLoaded.Probability} ");
-                return predictionFromLoaded.Prediction;
+                return predicition;
             }            
         }
     }
