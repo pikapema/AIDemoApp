@@ -9,7 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToDoListAPI", "ToDoListAPI\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToDoListAngular", "ToDoListAngular\ToDoListAngular.csproj", "{25FDFCC0-A5C1-4690-AE10-F339FDF6F19A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TodoApi", "TodoApi\TodoApi.csproj", "{07B2D77C-788D-4D64-88CF-C151FD264DFF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MLNETmodelApi", "TodoApi\MLNETmodelApi.csproj", "{07B2D77C-788D-4D64-88CF-C151FD264DFF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

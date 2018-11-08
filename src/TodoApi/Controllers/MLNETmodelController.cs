@@ -10,20 +10,20 @@ using TodoApi.Models;
 namespace TodoApi.Controllers
 {
     [Route("api/todo")]
-    public class TodoController : Controller
+    public class MLNETmodelController : Controller
     {
 
-        private static Dictionary<int, TodoItem> mockData = new Dictionary<int, TodoItem>();
+        private static Dictionary<int, SentimentItem> mockData = new Dictionary<int, SentimentItem>();
 
-        static TodoController()
+        static MLNETmodelController()
         {
-            mockData.Add(0, new TodoItem { Id = 0, Description = "feed the dog", CognitiveSentimentScore = 0.5, MlNetSentimentScore = false, MlCustomSentimentScore = false });
-            mockData.Add(1, new TodoItem { Id = 1, Description = "take the dog on a walk", CognitiveSentimentScore = 0.5, MlNetSentimentScore = false, MlCustomSentimentScore = false });
+            mockData.Add(0, new SentimentItem { Id = 0, Description = "feed the dog", CognitiveSentimentScore = 0.5, MlNetSentimentScore = false, MlCustomSentimentScore = false });
+            mockData.Add(1, new SentimentItem { Id = 1, Description = "take the dog on a walk", CognitiveSentimentScore = 0.5, MlNetSentimentScore = false, MlCustomSentimentScore = false });
         }
         
         // GET: api/ToDoItemList
         [HttpGet]
-        public IEnumerable<TodoItem> Get()
+        public IEnumerable<SentimentItem> Get()
         {
             return mockData.Values;
         }

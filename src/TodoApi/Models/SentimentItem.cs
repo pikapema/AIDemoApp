@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace TodoApi.Models
 {
-    public class TodoItem
+    public class SentimentItem
     {
         public int Id { get; set; }
         public string Description { get; set; }
