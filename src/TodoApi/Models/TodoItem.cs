@@ -6,10 +6,11 @@ using System.Threading.Tasks;
 namespace TodoApi.Models
 {
     public class TodoItem
-{
-    public int Id { get; set; }
-    public string Description { get; set; }
-    public double CognitiveSentimentScore { get; set; }
-    public bool MlNetSentimentScore { get; set; }
-}
+    {
+        public int Id { get; set; }
+        public string Description { get; set; }
+        public double CognitiveSentimentScore { get; set; }
+        public bool MlNetSentimentScore { get; set; }
+        public bool MlCustomSentimentScore { get; set; }
+    }
 }

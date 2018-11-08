@@ -7,5 +7,6 @@
         public string Owner { get; set; }
         public double CognitiveSentimentScore { get; set; } = 0;
         public double MlNetSentimentScore { get; set; } = 0;
+        public double MlCustomSentimentScore { get; set; } = 0;
     }
 }

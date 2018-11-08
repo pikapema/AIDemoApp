@@ -50,6 +50,16 @@ namespace ToDoListAPI.Models
             set { this._mlnetsentiment = value; }
         }
 
+        /// <summary>
+        /// Optional.
+        /// </summary>
+        private double _mlcustomsentiment;
+        public double MlCustomSentiment
+        {
+            get { return this._mlcustomsentiment; }
+            set { this._mlcustomsentiment = value; }
+        }
+
         private string _owner;
         
         /// <summary>
@@ -100,6 +110,11 @@ namespace ToDoListAPI.Models
                 {
                     this.MlNetSentiment = ((double)mlnetsentimentValue);
                 }
+                JToken mlcustomsentimentValue = inputObject["MlCustomSentimentScore"];
+                if (mlcustomsentimentValue != null && mlcustomsentimentValue.Type != JTokenType.Null)
+                {
+                    this.MlCustomSentiment = ((double)mlcustomsentimentValue);
+                }
             }
         }
         
@@ -130,6 +145,7 @@ namespace ToDoListAPI.Models
            
             outputObject["CognitiveSentiment"] = this.CognitiveSentiment;
             outputObject["MlNetSentiment"] = this.MlNetSentiment;
+            outputObject["MlCustomSentiment"] = this.MlCustomSentiment;
             return outputObject;
         }
     }

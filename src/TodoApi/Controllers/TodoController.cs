@@ -17,8 +17,8 @@ namespace TodoApi.Controllers
 
         static TodoController()
         {
-            mockData.Add(0, new TodoItem { Id = 0, Description = "feed the dog", CognitiveSentimentScore = 0.5, MlNetSentimentScore = false });
-            mockData.Add(1, new TodoItem { Id = 1, Description = "take the dog on a walk", CognitiveSentimentScore = 0.5, MlNetSentimentScore = false });
+            mockData.Add(0, new TodoItem { Id = 0, Description = "feed the dog", CognitiveSentimentScore = 0.5, MlNetSentimentScore = false, MlCustomSentimentScore = false });
+            mockData.Add(1, new TodoItem { Id = 1, Description = "take the dog on a walk", CognitiveSentimentScore = 0.5, MlNetSentimentScore = false, MlCustomSentimentScore = false });
         }
         
         // GET: api/ToDoItemList

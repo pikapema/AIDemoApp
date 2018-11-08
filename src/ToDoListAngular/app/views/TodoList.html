@@ -21,17 +21,17 @@
             </tr>
             <tr>
                 <td>
-                <table class="table table-striped">
-    <tbody>
-        <tr data-ng-repeat="item in todoList">
-            <td ng-class='{red : item.CognitiveSentiment <= 0.5, green : item.CognitiveSentiment > 0.5}'>
-                <p data-ng-hide="item.edit">{{item.Description}}</p>
-                <input data-ng-show="item.edit" type="text" data-ng-model="editInProgressTodo.Description" class="form-control" />
-            </td>
+                    <table class="table table-striped">
+                        <tbody>
+                            <tr data-ng-repeat="item in todoList">
+                                <td ng-class='{red : item.CognitiveSentiment <= 0.5, green : item.CognitiveSentiment > 0.5}'>
+                                    <p data-ng-hide="item.edit">{{item.Description}}</p>
+                                    <input data-ng-show="item.edit" type="text" data-ng-model="editInProgressTodo.Description" class="form-control" />
+                                </td>
             
-        </tr>
-    </tbody>
-</table>
+                            </tr>
+                        </tbody>
+                    </table>
                 </td>
                 <td>
                     <table class="table table-striped">
@@ -50,7 +50,7 @@
                     <table class="table table-striped">
                         <tbody>
                             <tr data-ng-repeat="item in todoList">
-                                <td ng-class='{red : item.Sentiment <= 0.3, green : item.Sentiment > 0.7}'>
+                                <td ng-class='{red : item.MlCustomSentiment == 0, green : item.MlCustomSentiment == 1}'>
                                     <p data-ng-hide="item.edit">{{item.Description}}</p>
                                     <input data-ng-show="item.edit" type="text" data-ng-model="editInProgressTodo.Description" class="form-control" />
                                 </td>

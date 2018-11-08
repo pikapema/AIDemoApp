@@ -59,7 +59,8 @@ namespace ToDoListAPI.Controllers
                     ID = (int)m.ID,
                     Owner = m.Owner,
                     CognitiveSentiment = m.CognitiveSentiment,
-                    MlNetSentiment = m.MlNetSentiment
+                    MlNetSentiment = m.MlNetSentiment,
+                    MlCustomSentiment = m.MlCustomSentiment
                 });
             }
         }
@@ -93,7 +94,8 @@ namespace ToDoListAPI.Controllers
                     ID = todo.ID,
                     Owner = todo.Owner,
                     CognitiveSentiment = todo.CognitiveSentiment,
-                    MlNetSentiment = todo.MlNetSentiment
+                    MlNetSentiment = todo.MlNetSentiment,
+                    MlCustomSentiment = todo.MlCustomSentiment
                 });
             }
         }
@@ -110,7 +112,8 @@ namespace ToDoListAPI.Controllers
                     ID = todo.ID,
                     Owner = todo.Owner,
                     CognitiveSentiment = todo.CognitiveSentiment,
-                    MlNetSentiment = todo.MlNetSentiment
+                    MlNetSentiment = todo.MlNetSentiment,
+                    MlCustomSentiment = todo.MlCustomSentiment
                 });
             }
         }

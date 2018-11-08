@@ -17,6 +17,10 @@ namespace TodoApi
 
         public static void CreateModel()
         {
+            if (File.Exists(ModelPath))
+            {
+                return;
+            }
             //1. Create ML.NET context/environment
             using (var env = new LocalEnvironment())
             {
@@ -66,8 +70,7 @@ namespace TodoApi
                 System.Diagnostics.Debug.WriteLine($"Accuracy: {metrics.Accuracy:P2}");
                 System.Diagnostics.Debug.WriteLine($"Auc: {metrics.Auc:P2}");
                 System.Diagnostics.Debug.WriteLine($"F1Score: {metrics.F1Score:P2}");
-                System.Diagnostics.Debug.WriteLine("=============== End of Model's evaluation ===============");
-                                
+                System.Diagnostics.Debug.WriteLine("=============== End of Model's evaluation ===============");                                
 
                 // Save model to .ZIP file
                 SaveModelAsFile(env, model);
@@ -79,7 +82,7 @@ namespace TodoApi
             using (var fs = new FileStream(ModelPath, FileMode.Create, FileAccess.Write, FileShare.Write))
                 model.SaveTo(env, fs);
 
-            System.Diagnostics.Debug.WriteLine("The model is saved to {0}", ModelPath);
+            System.Diagnostics.Debug.WriteLine("The model is saved to " + ModelPath);
         }
     }
 }

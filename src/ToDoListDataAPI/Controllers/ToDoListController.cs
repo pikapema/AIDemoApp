@@ -6,9 +6,9 @@ using System.Web.Http;
 using ToDoListDataAPI.Models;
 using System.Threading.Tasks;
 using ToDoListDataAPI.AIHelpers.CognitiveServices;
-using ToDoListDataAPI.AIHelpers.MLNET;
 using System.Net.Http;
 using System.Globalization;
+using System.Net.Http.Headers;
 
 namespace ToDoListDataAPI.Controllers
 {
@@ -23,8 +23,8 @@ namespace ToDoListDataAPI.Controllers
 
         static ToDoListController()
         {
-            mockData.Add(0, new ToDoItem { ID = 0, Owner = "*", Description = "feed the dog", CognitiveSentimentScore = 0.5, MlNetSentimentScore = 0.5 });
-            mockData.Add(1, new ToDoItem { ID = 1, Owner = "*", Description = "take the dog on a walk", CognitiveSentimentScore = 0.5, MlNetSentimentScore = 0.5 });
+            mockData.Add(0, new ToDoItem { ID = 0, Owner = "*", Description = "feed the dog", CognitiveSentimentScore = 0.5, MlNetSentimentScore = 0.5, MlCustomSentimentScore = 0.5 });
+            mockData.Add(1, new ToDoItem { ID = 1, Owner = "*", Description = "take the dog on a walk", CognitiveSentimentScore = 0.5, MlNetSentimentScore = 0.5, MlCustomSentimentScore = 0.5});
         }
 
         private static void CheckCallerId()
@@ -58,7 +58,7 @@ namespace ToDoListDataAPI.Controllers
         {
             CheckCallerId();
 
-            //Check Sentiment
+            //Check Sentiment with Cognitive Services
             await CognitiveServicesText.SentimentAnalysis(todo);
 
             //Call .NET Core project for ML.NET prediction
@@ -72,7 +72,7 @@ namespace ToDoListDataAPI.Controllers
             var response = await client.PostAsync("http://localhost:60146/api/todo", content);
             string responseString = await response.Content.ReadAsStringAsync();
 
-            //double mlSentimentValue = MLNetTextSentiment.PredictSentiment(todo.Description);
+            
             double result;
             if (Double.TryParse(responseString, NumberStyles.AllowDecimalPoint, CultureInfo.CurrentCulture, out result))
             {
@@ -81,6 +81,39 @@ namespace ToDoListDataAPI.Controllers
             }
             else
                 System.Diagnostics.Debug.WriteLine("Unable to parse " + responseString);
+            
+
+            //Call Kristinas Model
+            var scoreRequest = new
+            {
+                Inputs = new Dictionary<string, List<Dictionary<string, string>>>() {
+                        {
+                            "input1",
+                            new List<Dictionary<string, string>>(){new Dictionary<string, string>(){
+                                            {
+                                                "tweet_text", todo.Description
+                                            },
+                                }
+                            }
+                        },
+                    },
+                GlobalParameters = new Dictionary<string, string>()
+                {
+                }
+            };
+
+            const string apiKey = "Key"; // Replace this with the API key for the web service 
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", apiKey);           
+            var response2 = await client.PostAsJsonAsync("https://ussouthcentral.services.azureml.net/workspaces/86a7b45bf031449c887345c7a24a75a4/services/ac7138a3b38647c4bfeb403fd14d9e24/execute?api-version=2.0&format=swagger", scoreRequest);
+            ModelResponse responseModel = await response2.Content.ReadAsAsync<ModelResponse>();
+            var score = responseModel.Results.output1[0].Score;
+            var sentiment = responseModel.Results.output1[0].Sentiment;
+
+            System.Diagnostics.Debug.WriteLine("Custom model sentiment " + sentiment + ", score: " + score);
+
+            if ( sentiment.Equals("positive") )
+                todo.MlCustomSentimentScore = 1;
+            //{"Results":{"output1":[{"Sentiment":"positive","Score":"0.709294199943542"}]}}            
 
             todo.ID = mockData.Count > 0 ? mockData.Keys.Max() + 1 : 1;
             mockData.Add(todo.ID, todo);

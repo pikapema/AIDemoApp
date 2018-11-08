@@ -61,7 +61,8 @@ angular.module('todoApp')
             'Description': $scope.newTodoCaption,
             'Owner': "",
             'CognitiveSentiment': 0,
-            'MlNetSentiment': 0
+            'MlNetSentiment': 0,
+            'MlCustomSentiment':0
         }).success(function (results) {
             $scope.loadingMsg = "";
             $scope.newTodoCaption = "";
