@@ -1,16 +1,12 @@
-﻿using System;
-using System.IO;
-using Microsoft.ML.Runtime.Learners;
+﻿using System.IO;
 using Microsoft.ML.Runtime.Data;
 using Microsoft.ML.Core.Data;
-using Microsoft.ML;
 using TodoApi.Models;
 
 namespace TodoApi
 {
     public static class MLNetTextSentiment
     {
-        //private static string AppPath => Path.GetDirectoryName(Environment.GetCommandLineArgs()[0]);
         private static string ModelPath => "C:/Users/kapeltol/Source/Repos/AIDemoApp/src/TodoApi/Data/SentimentModel.zip";
 
         public static int PredictSentiment(string text)
@@ -43,11 +39,8 @@ namespace TodoApi
 
                 SentimentPrediction predictionFromLoaded = engine.Predict(sampleStatement);
                 System.Diagnostics.Debug.WriteLine("prediction: " + predictionFromLoaded.Prediction + ", Probability: " + predictionFromLoaded.Probability + ", score: " + predictionFromLoaded.Score);
-                int predicition = 0;
-                if (predictionFromLoaded.Prediction == true)
-                    predicition = 1;
-
-                return predicition;
+               
+                return (predictionFromLoaded.Prediction == true) ? 1 : 0;
             }            
         }
     }
